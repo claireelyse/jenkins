@@ -7,5 +7,23 @@ pipeline {
                 echo 'Hello World'
             }
         }
+        stage('Approval Gate') {
+            steps {
+                script {
+                    timeout(time: 7, unit: 'DAYS') {
+                        input message: 'Do you want to proceed?'
+                    }
+                }
+            }
+        }
+        stage('Quality Gate') {
+            steps {
+                script {
+                    timeout(time: 7, unit: 'DAYS') {
+                        input message: 'Do you want to proceed?'
+                    }
+                }
+            }
+        }
     }
 }
