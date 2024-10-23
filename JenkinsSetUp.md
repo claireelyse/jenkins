@@ -2,11 +2,12 @@
 This is my notes for setting up Jenkins 10/15/2024 following this documentation
 https://www.jenkins.io/doc/book/installing/linux/#debianubuntu
 
-## VM - Ubuntu
+## Set up the Server
+#### VM - Ubuntu
 Operating system:Linux (ubuntu 24.04)
 Size:Standard B2s (2 vcpus, 4 GiB memory)
 
-## Connect
+#### Connect
 ```Bash
 ssh -i .\Downloads\Jenkins_key1.pem azureuser@52.228.188.138
 ```
@@ -47,7 +48,7 @@ sudo systemctl start jenkins
 sudo systemctl status jenkins
 ```
 
-## Troubleshooting
+#### Troubleshooting
 
 Logs are here if the application hasn't booted yet
 ```Bash
