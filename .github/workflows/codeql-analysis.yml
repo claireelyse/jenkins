@@ -21,9 +21,7 @@ jobs:
         uses: github/codeql-action/init@v2
         with:
           languages: ${{ matrix.language }}
-          paths: 
-            - 'Code/**/*.py'
-            - 'Code/**/*.js'
+          path: ['Code/**/*']
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
