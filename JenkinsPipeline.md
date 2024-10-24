@@ -39,11 +39,17 @@ pipeline {
     stages {
         }
     }
+```
+
+## Approval Gates
+
 
 ## Quality Gates
-For a quality gate we are going to set up a CodeQL action that is initiated by Jenkins. This is overly complicated but I want to test out how well Jenkins can work with external tools. 
+In this section I breakdown how to set up Quality Gates for security analysis using GitHub Actions with CodeQL, triggered from a Jenkins pipeline.
 
-#### Set up your CodeQL action in GitHub
+For more in depth explanation go [here](PipelineQualityGates.md)
+
+
 
 Note: the .git files are hidden. if you want to set up vs code to show this folder then  follow the below notes. This is optional.
 Set VS code so it shows the hidden git folders:
@@ -54,55 +60,4 @@ then add this to your settings profile
     "files.exclude": {
         "**/.git": false
      }
-```
-
-If the Repo is PRIVATE then you need to change your repo to be public if you want to use codeQL. 
-
-#### Add permissions to token for CodeQL access
-If you want to use CodeQL as your quality gate then you will need to Create/add the below permissions to your token.
-    Settings > Developer Settings > Personal Access Tokens > Classic
-
-Then assign the PAT the below permissions
- - repo
- - workflow
-
-Create your CodeQL action file by creating the below directories and file:
-.github/workflows/codeql-analysis.yml
-
-Add the below code to your new file:
-
-```YML
-name: "CodeQL"
-
-on:
-    workflow_dispatch:  # This allows manual triggering via the API
-#  push:
-#    branches: [main]
-#  pull_request:
-#    branches: [main]
-
-permissions:
-  contents: read  # Required to checkout the repository to the Actions runner
-  security-events: write # Required for Code Scanning with CodeQL
-
-jobs:
-  analyze:
-    name: Analyze Code
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        language: ['javascript', 'python']  # Change to your project's language
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.JENKINS }}
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
-        with:
-          languages: ${{ matrix.language }}
-
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
 ```

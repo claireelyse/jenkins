@@ -2,12 +2,16 @@ pipeline {
     agent any
 
     stages {
-        stage('Hello') {
+        stage('Approval Gate') {
             steps {
-                echo 'Hello World'
+                // Timeout block for the input step
+                timeout(time: 10, unit: 'MINUTES') {  // Waits for 10 minutes for approval
+                    // Manual approval step
+                    input message: 'Do you approve deployment?', ok: 'Deploy', submitter: 'admin'
+                }
             }
         }
-        stage('Trigger CodeQL in GitHub Action') {
+        stage('Quality Gate') {
             steps {
                 script {
                     // Use the existing 'Username with password' credential
@@ -21,6 +25,13 @@ pipeline {
                         """
                     }
                 }
+            }
+        }
+        post {
+            // Fail the job if the input timeout is reached
+            aborted {
+                echo 'Approval was not granted in time. Failing the job.'
+                error('Job failed due to lack of approval.')
             }
         }
     }
