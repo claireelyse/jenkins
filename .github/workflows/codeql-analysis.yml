@@ -7,7 +7,8 @@ on:
     branches: [main]
 
 permissions:
-  security-events: write
+  contents: read  # Required to checkout the repository to the Actions runner
+  security-events: write # Required for Code Scanning with CodeQL
 
 jobs:
   analyze:
