@@ -10,7 +10,8 @@ pipeline {
         stage('Trigger CodeQL in GitHub Action') {
             steps {
                 script {
-                    withCredentials([string(credentialsId: '3777c30a-0948-46fe-9901-ed688e8ca8d6', variable: 'GITHUB_TOKEN')]) {
+                    // Use the existing 'Username with password' credential
+                    withCredentials([usernamePassword(credentialsId: '3777c30a-0948-46fe-9901-ed688e8ca8d6', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_TOKEN')]) {
                         def response = httpRequest acceptType: 'APPLICATION_JSON',
                             consoleLogResponseBody: true,
                             customHeaders: [[name: 'Authorization', value: "Bearer ${GITHUB_TOKEN}"]],
