@@ -6,9 +6,9 @@ on:
   pull_request:
     branches: [main]
 
-#permissions:
-#  contents: read  # Required to checkout the repository to the Actions runner
-#  security-events: write # Required for Code Scanning with CodeQL
+permissions:
+  contents: read  # Required to checkout the repository to the Actions runner
+  security-events: write # Required for Code Scanning with CodeQL
 
 jobs:
   analyze:
@@ -20,8 +20,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
- #       with:
- #         token: ${{ secrets.JENKINS }}
+        with:
+          token: ${{ secrets.JENKINS }}
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
