@@ -10,10 +10,10 @@ pipeline {
         stage('Trigger CodeQL in GitHub Action') {
             steps {
                 script {
-                    withCredentials([string(credentialsId: 'github-token', variable: 'JENKINS')]) {
+                    withCredentials([string(credentialsId: '3777c30a-0948-46fe-9901-ed688e8ca8d6', variable: 'GITHUB_TOKEN')]) {
                         def response = httpRequest acceptType: 'APPLICATION_JSON',
                             consoleLogResponseBody: true,
-                            customHeaders: [[name: 'Authorization', value: "Bearer ${JENKINS}"]],
+                            customHeaders: [[name: 'Authorization', value: "Bearer ${GITHUB_TOKEN}"]],
                             url: 'https://api.github.com/repos/claireelyse/jenkins/actions/workflows/codeql-analysis.yml/dispatches',
                             validResponseCodes: '204',
                             requestBody: '{"ref":"main"}'
