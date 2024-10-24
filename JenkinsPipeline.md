@@ -13,12 +13,12 @@ Below we will walk through the below examples:
 ## Set up
 If your repo is a private repo then you will need to create a Personal Access token.
 
-#### Create the PAT
+#### Create the PAT for Jenkins
+If your repo is private then you will need to create a PAT so that Jenkins can manage your repo
     Settings > Developer Settings > Personal Access Tokens > Classic
 
 Then assign the PAT the below permissions
  - repo
- - workflow
 
 #### Create a Pipeline that will connect with your Source code repo in GitHub
 Create a pipeline Job and under Configure > Pipeline set the below settings
@@ -56,7 +56,15 @@ then add this to your settings profile
      }
 ```
 
-If the Repo is PRIVATE then you need to create a PAT
+If the Repo is PRIVATE then you need to change your repo to be public if you want to use codeQL. 
+
+#### Add permissions to token for CodeQL access
+If you want to use CodeQL as your quality gate then you will need to Create/add the below permissions to your token.
+    Settings > Developer Settings > Personal Access Tokens > Classic
+
+Then assign the PAT the below permissions
+ - repo
+ - workflow
 
 Create your CodeQL action file by creating the below directories and file:
 .github/workflows/codeql-analysis.yml
@@ -67,10 +75,15 @@ Add the below code to your new file:
 name: "CodeQL"
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    workflow_dispatch:  # This allows manual triggering via the API
+#  push:
+#    branches: [main]
+#  pull_request:
+#    branches: [main]
+
+permissions:
+  contents: read  # Required to checkout the repository to the Actions runner
+  security-events: write # Required for Code Scanning with CodeQL
 
 jobs:
   analyze:
@@ -82,12 +95,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.JENKINS }}
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
           languages: ${{ matrix.language }}
-          path: ['Code/**/*']
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
