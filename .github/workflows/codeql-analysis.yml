@@ -1,10 +1,7 @@
 name: "CodeQL"
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  workflow_dispatch:  # This allows manual triggering via the API
 
 permissions:
   contents: read  # Required to checkout the repository to the Actions runner
