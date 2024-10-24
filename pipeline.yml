@@ -27,12 +27,14 @@ pipeline {
                 }
             }
         }
-        post {
-            // Fail the job if the input timeout is reached
-            aborted {
-                echo 'Approval was not granted in time. Failing the job.'
-                error('Job failed due to lack of approval.')
-            }
+    }
+
+    post {
+        // Fail the job if the input timeout is reached
+        aborted {
+            echo 'Approval was not granted in time. Failing the job.'
+            error('Job failed due to lack of approval.')
         }
     }
+    
 }
