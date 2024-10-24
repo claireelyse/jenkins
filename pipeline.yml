@@ -12,18 +12,13 @@ pipeline {
                 script {
                     // Use the existing 'Username with password' credential
                     withCredentials([usernamePassword(credentialsId: '3777c30a-0948-46fe-9901-ed688e8ca8d6', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_TOKEN')]) {
-                        def response = httpRequest acceptType: 'APPLICATION_JSON',
-                            consoleLogResponseBody: true,
-                            customHeaders: [[name: 'Authorization', value: "Bearer ${GITHUB_TOKEN}"]],
-                            url: 'https://api.github.com/repos/claireelyse/jenkins/actions/workflows/codeql-analysis.yml/dispatches',
-                            validResponseCodes: '204',
-                            requestBody: '{"ref":"main"}'
-                        
-                        if (response.status != 204) {
-                            error "Failed to trigger GitHub Action"
-                        } else {
-                            echo "GitHub Action triggered successfully."
-                        }
+                        sh """
+                        curl -X POST \
+                        -H "Accept: application/vnd.github.v3+json" \
+                        -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+                        https://api.github.com/repos/claireelyse/jenkins/actions/workflows/codeql-analysis.yml/dispatches \
+                        -d '{"ref":"main"}'
+                        """
                     }
                 }
             }
