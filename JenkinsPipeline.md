@@ -1,11 +1,11 @@
 # Jenkins Scripted Pipelines
-Below we will walk through the below examples:
+Below we will walk through the below Pipeline examples:
 
-- How to do approval gates
-- Quality gates
+- [Approval Gates](PipelineApprovalGates.md)
+- [Quality Gates](PipelineQualityGates.md)
 - Matrix Deployments
 - Ring deployments (deploying applications to all regions and all landing zones - in azure devops by stages)
-- Conditional logic
+- [Conditional logic](PipelineConditionalLogic.md)
 - Testing automation
 - Build artifacts (do they have a store or is it stored on disk)
 - Secrets
@@ -40,15 +40,6 @@ pipeline {
         }
     }
 ```
-
-## Approval Gates
-
-
-## Quality Gates
-In this section I breakdown how to set up Quality Gates for security analysis using GitHub Actions with CodeQL, triggered from a Jenkins pipeline.
-
-For more in depth explanation go [here](PipelineQualityGates.md)
-
 
 
 Note: the .git files are hidden. if you want to set up vs code to show this folder then  follow the below notes. This is optional.
